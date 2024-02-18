@@ -8,6 +8,12 @@ df = pd.read_csv(url)
 
 print(df)
 
+def oddsMaker():
+
+
+def playerStats():
+    
+
 def playerScore(name):
     
     
