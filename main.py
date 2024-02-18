@@ -6,7 +6,10 @@ import os
 load_dotenv()
 token = os.getenv('TOKEN')
 
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.default()
+intents.messages = True
+intents.guilds = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def onReady():
     print('ready')
