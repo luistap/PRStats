@@ -21,14 +21,14 @@ async def on_ready():
     print('ready')
 
 # command: !playerStats
-@bot.command(name= 'playerStats', help='Displays stats for a specified player.')
+@bot.command(name= 'playerstats', help='Displays stats for a specified player.')
 async def player_stats(ctx, playerName: str):
 
     player_row = stats.get_row(playerName)
     if player_row is None:
         await ctx.send("name not found")
     else:
-        await ctx.send(print(player_row))
+        await ctx.send("found")
 
 
 
