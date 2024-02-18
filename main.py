@@ -11,17 +11,17 @@ intents.messages = True
 intents.guilds = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
-async def onReady():
+async def on_ready():
     print('ready')
 
 # command: !playerStats
 @bot.command(name= 'playerStats', help='Displays stats for a specified player.')
-async def playerStats(ctx, playerName : str):
+async def player_stats(ctx, playerName : str):
     await ctx.send("testing playerStats")
 
 
 @bot.command(name='odds', help='Calculates and displays odds for a match.')
-async def matchOdds(ctx, matchInfo: str):
+async def match_odds(ctx, matchInfo: str):
     await ctx.send("testing matchOdds")
 
 bot.run(token)
