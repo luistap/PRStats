@@ -4,6 +4,7 @@
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import stats
 import os
 
 load_dotenv()
@@ -23,8 +24,11 @@ async def on_ready():
 @bot.command(name= 'playerStats', help='Displays stats for a specified player.')
 async def player_stats(ctx, playerName: str):
 
-    
-    await ctx.send("testing playerStats")
+    player_row = stats.get_row(playerName)
+    if player_row is None:
+        await ctx.send("name not found")
+    else:
+        await ctx.send(print(player_row))
 
 
 
