@@ -9,6 +9,7 @@ token = os.getenv('TOKEN')
 intents = discord.Intents.default()
 intents.messages = True
 intents.guilds = True
+intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 @bot.event
 async def on_ready():
@@ -16,7 +17,7 @@ async def on_ready():
 
 # command: !playerStats
 @bot.command(name= 'playerStats', help='Displays stats for a specified player.')
-async def player_stats(ctx, playerName : str):
+async def player_stats(ctx):
     await ctx.send("testing playerStats")
 
 
