@@ -4,11 +4,15 @@ import pandas as pd
 import os
 from dotenv import load_dotenv
 
-url = os.getenv('URL')
+url = 'https://docs.google.com/spreadsheets/d/1meumcUensHq5gURLb6WC5cksqkjta9fAtMTdeMuADwc/export?format=csv&gid=1382361133'
 df = pd.read_csv(url)
 
 
 print(df)
+
+# extract player stats by row
+def get_row(name):
+    sum = 0
 
 def player_score(name):
     
@@ -30,5 +34,5 @@ def adjScore(name):
 
 
 def get_player_stats(name):
-    current = 
+    current = 0
     
