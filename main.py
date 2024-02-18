@@ -1,3 +1,6 @@
+# module for the discord bot
+# initialize the bot and set commands as needed
+
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -17,10 +20,13 @@ async def on_ready():
 
 # command: !playerStats
 @bot.command(name= 'playerStats', help='Displays stats for a specified player.')
-async def player_stats(ctx):
+async def player_stats(ctx, playerName: str):
+
     await ctx.send("testing playerStats")
+    
 
 
+# command: !odds
 @bot.command(name='odds', help='Calculates and displays odds for a match.')
 async def match_odds(ctx, matchInfo: str):
     await ctx.send("testing matchOdds")

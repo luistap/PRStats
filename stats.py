@@ -1,17 +1,16 @@
-# module for statistic calculations
+# module for statistic calculations 
 
 import pandas as pd
+import os
+from dotenv import load_dotenv
 
-url = 'https://docs.google.com/spreadsheets/d/1meumcUensHq5gURLb6WC5cksqkjta9fAtMTdeMuADwc/export?format=csv&gid=1382361133'
+url = os.getenv('URL')
 df = pd.read_csv(url)
 
 
 print(df)
 
-def oddsMaker():
-
-
-    
+def player_score(name):
     
     sum = 0
     sum += baseScore(name) + adjScore(name)
@@ -30,4 +29,6 @@ def adjScore(name):
 
 
 
+def get_player_stats(name):
+    current = 
     

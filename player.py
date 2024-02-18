@@ -1,7 +1,10 @@
 # class for storing individual player data
-# ----> encapsulate ...
+# ----> encapsulate players' individual stats in one object
 
 class Player:
+
+    # constructor for the player class
+    # @param df row containing player data
     def __init__(self, row):
         self.name = row['name']
         self.ranked_kd = row['ranked_kd']
