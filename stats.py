@@ -11,10 +11,6 @@ print(df)
 def oddsMaker():
 
 
-def playerStats():
-    
-
-def playerScore(name):
     
     
     sum = 0
