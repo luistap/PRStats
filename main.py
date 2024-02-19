@@ -47,6 +47,7 @@ async def match_odds(ctx, matchInfo: str):
     if len(teams) < 2:
         await ctx.send("Less than 2 teams in memory")
     else:
+        matchInfo = matchInfo.split()
         
         await ctx.send("testing matchOdds")
     

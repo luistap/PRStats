@@ -1,3 +1,5 @@
+# class for storing team information
+
 import stats
 
 class Team:

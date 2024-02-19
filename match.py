@@ -1,9 +1,12 @@
-# class for encapsulating match data
-# based on a variety of Player objects
-# and other calculations as needed
+# script for calculating match-related info
+# and handle other operations
 
-class Match:
+import team
 
-    # constructor
-   def __init__(self, names):
-     sum = 0
+def find_team(name : str, teams_list : list):
+
+    for teams in teams_list:
+        if (teams.get_name() == name):
+
+
+
