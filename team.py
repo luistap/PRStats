@@ -9,9 +9,9 @@ class Team:
         self.score = 0
         teamInfo = teamInfo.split()
         self.name = teamInfo[0]
-
+        del teamInfo[0]
         # tally up the players scores
-        for name in teamInfo[1:]:
+        for name in teamInfo:
             self.score += stats.player_score(name)
 
 
