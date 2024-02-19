@@ -6,4 +6,4 @@ class Match:
 
     # constructor
    def __init__(self, names):
-     
+     sum = 0

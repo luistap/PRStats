@@ -29,8 +29,9 @@ async def player_stats(ctx, playerName: str):
     if player_row is None:
         await ctx.send("name not found")
     else:
-        current_player = stats.Player(player_row)
-        await ctx.send("found")
+        current_player = pl.Player(player_row)
+        summary = current_player.get_summary()
+        await ctx.send(summary)
 
 
 

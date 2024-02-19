@@ -5,19 +5,20 @@ class Player:
 
     # constructor for the player class
     # @param df row containing player data
-    def __init__(self, row):
-        self.name = row['uplay']
-        self.ranked_kd = row['ranked_kd']
-        self.tournament_kd = row['tournament_kd']
-        self.win_loss_record = row['win_loss_record']
-        self.finals_appearances = row['finals_appearances']
-        self.rank = row['rank']
+    def __init__(self, data : dict):
+        self.name = data.get('Uplay')
+        self.tournament_kd = data.get('Tournament KD')
+        self.win_loss_record = data.get('Total Map Record')
+        self.finals_appearances = data.get('Finals W/L')
+        self.rank = data.get('Peak Rank / KD')
+        self.level = data.get('Level')
 
     # Example method to present player data
     def get_summary(self):
-        return f"Player: {self.name}, Ranked K/D: {self.ranked_kd}, Tournament K/D: 
-        {self.tournament_kd}, Win/Loss: {self.win_loss_record}, Finals: {self.finals_appearances}, Rank: {self.rank}"
-
+        summary = f"Name: {self.name}, Ranked: {self.rank}, Tournament K/D: {self.tournament_kd}, Tournament Win/Loss: {self.win_loss_record}, Finals W/L: {self.finals_appearances},  Level: {self.level}"
+        return summary
+    
+    
     
 
 
