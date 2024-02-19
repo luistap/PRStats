@@ -48,6 +48,8 @@ async def match_odds(ctx, *, matchInfo: str):
         await ctx.send("Less than 2 teams in memory")
     else:
         team1Name, team2Name = matchInfo.split()
+        print(teams[0].get_name())
+        print(teams[0].get_score())
         team1 = find_team(team1Name)
         team2 = find_team(team2Name)
         odds = team1.get_score() - team2.get_score()
@@ -65,9 +67,9 @@ async def make_team(ctx, teamInfo: str):
 def find_team(name: str):
 
     for team in teams:
-        if team.get_name() == name:
+        print(team.get_score())
+        if team.get_name().lower() == name.lower():
             return team
-    
     return None
 
 bot.run(token)
