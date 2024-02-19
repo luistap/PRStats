@@ -42,14 +42,16 @@ async def player_stats(ctx, playerName: str):
 
 # command: !odds
 @bot.command(name='odds', help='Calculates and displays odds for a match.')
-async def match_odds(ctx, matchInfo: str):
+async def match_odds(ctx, *, matchInfo: str):
 
     if len(teams) < 2:
         await ctx.send("Less than 2 teams in memory")
     else:
-        matchInfo = matchInfo.split()
-        
-        await ctx.send("testing matchOdds")
+        team1Name, team2Name = matchInfo.split()
+        team1 = find_team(team1Name)
+        team2 = find_team(team2Name)
+        odds = team1.get_score() - team2.get_score()
+        await ctx.send(odds)
     
 
 # command: !maketeam
@@ -59,5 +61,13 @@ async def make_team(ctx, teamInfo: str):
     current_team = team.Team(teamInfo)
     teams.append(current_team)
     await ctx.send("created team")
+
+def find_team(name: str):
+
+    for team in teams:
+        if team.get_name() == name:
+            return team
+    
+    return None
 
 bot.run(token)

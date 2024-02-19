@@ -1,12 +1,15 @@
 # script for calculating match-related info
 # and handle other operations
 
-import team
+from team import Team
 
-def find_team(name : str, teams_list : list):
+def find_team(name : str, teams_list):
 
-    for teams in teams_list:
-        if (teams.get_name() == name):
-
+    for team in teams_list:
+        if team.get_name().lower() == name.lower():
+            return team
+    
+    # team not found, return None
+    return None
 
 
