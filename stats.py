@@ -69,6 +69,29 @@ def adjScore(name : str, row : str):
     sum = 0
     return sum
 
+def det_frauds():
+
+    df_copy = df.copy()
+    df_copy['ranked kd'] = df_copy['Peak Rank / KD'].apply(extract_kd)
+    df_copy['Tournament KD'] = df_copy['Tournament KD'].astype(float)
+    df_copy['diff'] = df_copy['ranked kd'] - df_copy['Tournament KD']
+    frauds = df[df['KDDifference'] >= 0.3]
+    
+    # Assuming 'Name' is the column with player names
+    fraud_names = frauds['Uplay'].tolist()
+    return fraud_names
+
+def extract_kd(data : str):
+
+    kd_str = data.split('(')[-1].rstrip(')')
+    # Convert the extracted KD ratio to a float
+    kd_float = float(kd_str)
+    return kd_float
+
+def tourneyKD(data: str):
+    
+    return float(data)
 
 def get_player_stats(name):
+
     current = 0

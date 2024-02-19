@@ -23,6 +23,12 @@ class Player:
     def get_level(self): return self.level
 
     def get_finalsApp(self): return self.finals_appearances
+
+    def get_rank(self): return self.rank
+
+    def get_tournamentKD(self): return self.tournament_kd
+
+    def get_WL(self): return self.win_loss_record
     
 
 

@@ -38,11 +38,21 @@ async def player_stats(ctx, playerName: str):
         # we have the player object, embed
         embed = discord.Embed(title=current_player.get_name(), color=0x00ff00)
         embed.add_field(name="Level:", value=str(current_player.get_level()), inline=True)
-        embed.add_field(name="Finals Record:", value=current_player.get_finalsApp(), inline=True)
-
-
+        embed.add_field(name="Ranked Stats:", value=current_player.get_rank(), inline=True)
+        embed.add_field(name="Tournament KD:", value=current_player.get_tournamentKD(), inline=False)
+        embed.add_field(name="Tournament W/L:", value=current_player.get_WL(), inline=False)
+        embed.add_field(name="Finals Record:", value=current_player.get_finalsApp(), inline=False)
         summary = current_player.get_summary()
         await ctx.send(embed=embed)
+
+
+# command: !frauds
+@bot.command(name='frauds', help='Determines who the current fraudulent players are.')
+async def get_frauds(ctx):
+
+    frauds = stats.det_frauds()
+    await ctx.send(frauds)
+
 
 
 
