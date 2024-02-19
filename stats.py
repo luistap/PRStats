@@ -5,6 +5,9 @@ import pandas as pd
 url = 'https://docs.google.com/spreadsheets/d/1meumcUensHq5gURLb6WC5cksqkjta9fAtMTdeMuADwc/export?format=csv&gid=1382361133'
 df = pd.read_csv(url)
 
+# known_msu ==> stores map / dict for all known players with map-specific underperformance
+known_msu = {"border":['pckrnr'], "kafe"}
+
 # extract player stats by row
 def get_row(name):
 
@@ -49,7 +52,7 @@ def tourney_kd(data : str):
 def scaleRank(info : str):
 
     info = info.split()
-    rank = info[0]
+    rank = info[0].lower()
     if rank == 'champion':
         return 5
     elif rank == 'diamond':
@@ -63,9 +66,8 @@ def scaleRank(info : str):
 
 # to be implemented later.
 def adjScore(name : str, row : str):
-    sum = 0
+    if 
     return sum
-
 
 
 def get_player_stats(name):
