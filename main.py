@@ -6,6 +6,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import stats
 import os
+import match
 import player as pl
 
 load_dotenv()
@@ -38,6 +39,13 @@ async def player_stats(ctx, playerName: str):
 # command: !odds
 @bot.command(name='odds', help='Calculates and displays odds for a match.')
 async def match_odds(ctx, matchInfo: str):
+
+    match = match.
     await ctx.send("testing matchOdds")
+
+
+@bot.command(name='maketeam', help='Registers a team for the current session.')
+async def make_team(ctx, teamInfo: str):
+    
 
 bot.run(token)

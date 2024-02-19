@@ -23,19 +23,44 @@ def get_row(name):
 def player_score(name):
     
     sum = 0
-    sum += baseScore(name) + adjScore(name)
+    row = get_row(name)
+    sum += baseScore(name, row) + adjScore(name, row)
     return sum
 
 
-def baseScore(name):
-
+def baseScore(name, row : dict):
 
     sum = 0
+    sum += (1.25 * scaleRank(row.get('Peak Rank / KD'))) + (1.5 * tourney_kd(row.get('Tournament KD'))) + 
+        
+    
+    return sum
 
 
+def tourney_kd(data : str):
+    actual_kd = data.split('(')[-1][:-1]
+    kd = float(actual_kd)
+    return kd
+
+def scaleRank(info : str):
+
+    rank = info.split(" ", 1).lower()
+    if rank == 'champion':
+        return 5
+    elif rank == 'diamond':
+        return 4
+    elif rank == 'emerald':
+        return 3
+    elif rank == 'platinum':
+        return 2
+    else:
+        return 1
+
+# to be implemented later.
 def adjScore(name):
 
     sum = 0
+    return sum
 
 
 
