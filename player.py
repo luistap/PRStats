@@ -6,7 +6,7 @@ class Player:
     # constructor for the player class
     # @param df row containing player data
     def __init__(self, row):
-        self.name = row['name']
+        self.name = row['uplay']
         self.ranked_kd = row['ranked_kd']
         self.tournament_kd = row['tournament_kd']
         self.win_loss_record = row['win_loss_record']

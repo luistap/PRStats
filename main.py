@@ -6,6 +6,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import stats
 import os
+import player as pl
 
 load_dotenv()
 token = os.getenv('TOKEN')
@@ -28,6 +29,7 @@ async def player_stats(ctx, playerName: str):
     if player_row is None:
         await ctx.send("name not found")
     else:
+        current_player = stats.Player(player_row)
         await ctx.send("found")
 
 
