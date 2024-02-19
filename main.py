@@ -8,6 +8,7 @@ import stats
 import os
 import match
 import player as pl
+import team
 
 load_dotenv()
 token = os.getenv('TOKEN')
@@ -17,6 +18,9 @@ intents.messages = True
 intents.guilds = True
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+
+# set containers
+teams = []
 
 @bot.event
 async def on_ready():
@@ -40,12 +44,15 @@ async def player_stats(ctx, playerName: str):
 @bot.command(name='odds', help='Calculates and displays odds for a match.')
 async def match_odds(ctx, matchInfo: str):
 
-    match = match.
+    
     await ctx.send("testing matchOdds")
 
 
 @bot.command(name='maketeam', help='Registers a team for the current session.')
 async def make_team(ctx, teamInfo: str):
-    
 
+    current_team = team.Team(teamInfo)
+    teams.append(current_team)
+    await ctx.send("created team")
+    
 bot.run(token)
