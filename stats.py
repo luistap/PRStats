@@ -6,7 +6,7 @@ url = 'https://docs.google.com/spreadsheets/d/1meumcUensHq5gURLb6WC5cksqkjta9fAt
 df = pd.read_csv(url)
 
 # known_msu ==> stores map / dict for all known players with map-specific underperformance
-known_msu = {"border":['pckrnr'], "kafe"}
+known_msu = {"border":['pckrnr']}
 
 # extract player stats by row
 def get_row(name):
@@ -66,7 +66,7 @@ def scaleRank(info : str):
 
 # to be implemented later.
 def adjScore(name : str, row : str):
-    if 
+    sum = 0
     return sum
 
 

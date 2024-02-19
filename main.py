@@ -35,8 +35,14 @@ async def player_stats(ctx, playerName: str):
         await ctx.send("name not found")
     else:
         current_player = pl.Player(player_row)
+        # we have the player object, embed
+        embed = discord.Embed(title=current_player.get_name(), color=0x00ff00)
+        embed.add_field(name="Level:", value=str(current_player.get_level()), inline=True)
+        embed.add_field(name="Finals Record:", value=current_player.get_finalsApp(), inline=True)
+
+
         summary = current_player.get_summary()
-        await ctx.send(summary)
+        await ctx.send(embed=embed)
 
 
 
@@ -53,6 +59,12 @@ async def match_odds(ctx, *, matchInfo: str):
         odds = team1.get_score() - team2.get_score()
         await ctx.send(odds)
     
+@bot.command(name='streamer', help='Provide information regarding streamer contract(s).')
+async def streamer(ctx):
+
+    await ctx.send("Want to become a streamer for the org?")
+
+
 
 # command: !maketeam
 @bot.command(name='maketeam', help='Registers a team for the current session.')

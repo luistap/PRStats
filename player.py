@@ -18,7 +18,11 @@ class Player:
         summary = f"Name: {self.name}, Ranked: {self.rank}, Tournament K/D: {self.tournament_kd}, Tournament Win/Loss: {self.win_loss_record}, Finals W/L: {self.finals_appearances},  Level: {self.level}"
         return summary
     
+    def get_name(self): return self.name
     
+    def get_level(self): return self.level
+
+    def get_finalsApp(self): return self.finals_appearances
     
 
 
