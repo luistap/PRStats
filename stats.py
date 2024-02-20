@@ -18,6 +18,7 @@ def get_row(name):
     else: 
         print('name not found')
         return None
+ 
     
 def player_score(name):
     
