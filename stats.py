@@ -8,6 +8,11 @@ df = pd.read_csv(url)
 # known_msu ==> stores map / dict for all known players with map-specific underperformance
 known_msu = {"border":['pckrnr']}
 
+# constants for the indexing of columns in df, per google sheet
+NAME_COL = 0
+TOURNAMENT_KD_COL = 4
+RANKED_STATS_COL = 5
+
 # extract player stats by row
 def get_row(name):
 
@@ -72,15 +77,16 @@ def adjScore(name : str, row : str):
 
 def det_frauds():
 
-    df_copy = df.copy()
-    df_copy['ranked kd'] = df_copy['Peak Rank / KD'].apply(extract_kd)
-    df_copy['Tournament KD'] = df_copy['Tournament KD'].astype(float)
-    df_copy['diff'] = df_copy['ranked kd'] - df_copy['Tournament KD']
-    frauds = df[df['KDDifference'] >= 0.3]
+    frauds = []
+    for row in df.itertuples(index=False):
+        name = row[NAME_COL]
+        t_kd = tourney_kd(row[TOURNAMENT_KD_COL])
+        ranked_kd = extract_kd(row[RANKED_STATS_COL])
+
+        if (t_kd != 0.00 and ranked_kd - t_kd >= .3):
+            frauds.append(name)
     
-    # Assuming 'Name' is the column with player names
-    fraud_names = frauds['Uplay'].tolist()
-    return fraud_names
+    return frauds
 
 def extract_kd(data : str):
 

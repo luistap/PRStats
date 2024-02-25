@@ -42,7 +42,6 @@ async def player_stats(ctx, playerName: str):
         embed.add_field(name="Tournament KD:", value=current_player.get_tournamentKD(), inline=False)
         embed.add_field(name="Tournament W/L:", value=current_player.get_WL(), inline=False)
         embed.add_field(name="Finals Record:", value=current_player.get_finalsApp(), inline=False)
-        summary = current_player.get_summary()
         await ctx.send(embed=embed)
 
 
@@ -51,7 +50,9 @@ async def player_stats(ctx, playerName: str):
 async def get_frauds(ctx):
 
     frauds = stats.det_frauds()
-    await ctx.send(frauds)
+    frauds_str = '\n'.join(frauds)
+    embed = discord.Embed(title="FRAUDULENT PLAYERS", description=frauds_str, color=0x00ff00)
+    await ctx.send(embed=embed)
 
 
 
