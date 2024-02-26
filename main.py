@@ -50,8 +50,15 @@ async def player_stats(ctx, playerName: str):
 async def get_frauds(ctx):
 
     frauds = stats.det_frauds()
-    frauds_str = '\n'.join(frauds)
-    embed = discord.Embed(title="FRAUDULENT PLAYERS", description=frauds_str, color=0x00ff00)
+    names_str = ""
+    vals_str = ""
+    embed = discord.Embed(title="FRAUDULENT PLAYERS", color=0x00ff00)
+    for name, diff in frauds.items():
+        names_str += f"{name}\n"
+        vals_str += f"{diff}\n"
+    
+    embed.add_field(name="Name:", value=names_str, inline=True)
+    embed.add_field(name="Differential:", value=vals_str, inline=True)
     await ctx.send(embed=embed)
 
 

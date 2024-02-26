@@ -13,6 +13,9 @@ NAME_COL = 0
 TOURNAMENT_KD_COL = 4
 RANKED_STATS_COL = 5
 
+# threshold constants
+FRAUD_THRESHOLD = .3
+
 # extract player stats by row
 def get_row(name):
 
@@ -77,15 +80,15 @@ def adjScore(name : str, row : str):
 
 def det_frauds():
 
-    frauds = []
+    frauds = {}
     for row in df.itertuples(index=False):
         name = row[NAME_COL]
         t_kd = tourney_kd(row[TOURNAMENT_KD_COL])
         ranked_kd = extract_kd(row[RANKED_STATS_COL])
-
-        if (t_kd != 0.00 and ranked_kd - t_kd >= .3):
-            frauds.append(name)
-    
+        diff = ranked_kd - t_kd
+        if (t_kd != 0.00 and diff >= FRAUD_THRESHOLD):
+            diff = round(diff, 2)
+            frauds[name] = str(diff * -1)
     return frauds
 
 def extract_kd(data : str):
