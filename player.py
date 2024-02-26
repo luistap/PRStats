@@ -3,6 +3,7 @@
 
 class Player:
 
+    playerData = {}
     # constructor for the player class
     # @param df row containing player data
     def __init__(self, data : dict):
@@ -12,6 +13,10 @@ class Player:
         self.finals_appearances = data.get('Finals W/L')
         self.rank = data.get('Peak Rank / KD')
         self.level = data.get('Level')
+        self.playerData = data
+        del self.playerData['Paid'] 
+        del self.playerData['URL']
+        del self.playerData['Uplay']
 
     # Example method to present player data
     def get_summary(self):
@@ -29,6 +34,13 @@ class Player:
     def get_tournamentKD(self): return self.tournament_kd
 
     def get_WL(self): return self.win_loss_record
+
+    def toString(self):
+        summary = ""
+        for key in self.playerData.keys():
+            summary += f"{self.playerData[key]}\n"
+        return summary
+        
     
 
 

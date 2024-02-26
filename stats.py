@@ -27,7 +27,7 @@ def get_row(name):
         print('name not found')
         return None
  
-    
+# get a player's overall score
 def player_score(name):
     
     sum = 0
@@ -35,7 +35,8 @@ def player_score(name):
     sum += baseScore(name, row) + adjScore(name, row)
     return sum
 
-
+# determine a player's base score
+# @param player's info within the dict
 def baseScore(name, row : dict):
 
     sum = 0

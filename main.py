@@ -58,7 +58,7 @@ async def get_frauds(ctx):
         vals_str += f"{diff}\n"
     
     embed.add_field(name="Name:", value=names_str, inline=True)
-    embed.add_field(name="Differential:", value=vals_str, inline=True)
+    embed.add_field(name="KD Differential:", value=vals_str, inline=True)
     await ctx.send(embed=embed)
 
 
@@ -76,8 +76,30 @@ async def match_odds(ctx, *, matchInfo: str):
         team2 = find_team(team2Name)
         odds = team1.get_score() - team2.get_score()
         await ctx.send(odds)
+
+# command: !compare
+@bot.command(name='compare', help='Compare two players.')
+async def compare(ctx, *, names : str):
     
-@bot.command(name='streamer', help='Provide information regarding streamer contract(s).')
+    name1, name2 = names.split()
+    player1_row = stats.get_row(name1)
+    player2_row = stats.get_row(name2)
+    player1_str = pl.Player(player1_row).toString()
+    player2_str = pl.Player(player2_row).toString()
+    embed = discord.Embed(title="Player Comparison", color=0x00ff00)
+    stat_names = ""
+    for stat in player1_row.keys():
+        stat_names += f"{stat}\n"
+    
+    embed.add_field(name=f"__{name1}__", value=player1_str, inline=True)
+    embed.add_field(name=f"Stats", value=stat_names, inline=True)
+    embed.add_field(name=f"__{name2}__", value=player2_str, inline=True)
+    
+    await ctx.send(embed=embed)
+
+    
+# command: !streamerinfo
+@bot.command(name='streamerinfo', help='Provide information regarding streamer contract(s).')
 async def streamer(ctx):
 
     await ctx.send("Want to become a streamer for the org?")
