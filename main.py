@@ -27,7 +27,7 @@ async def on_ready():
     print('ready')
 
 # command: !playerStats
-@bot.command(name= 'playerstats', help='Displays stats for a specified player.')
+@bot.command(name= 'player', help='Displays stats for a specified player.')
 async def player_stats(ctx, playerName: str):
 
     player_row = stats.get_row(playerName)
@@ -89,12 +89,10 @@ async def compare(ctx, *, names : str):
     embed = discord.Embed(title="Player Comparison", color=0x00ff00)
     stat_names = ""
     for stat in player1_row.keys():
-        stat_names += f"{stat}\n"
-    
+        stat_names += f"**{stat}**\n"
     embed.add_field(name=f"__{name1}__", value=player1_str, inline=True)
     embed.add_field(name=f"Stats", value=stat_names, inline=True)
     embed.add_field(name=f"__{name2}__", value=player2_str, inline=True)
-    
     await ctx.send(embed=embed)
 
     

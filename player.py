@@ -17,11 +17,6 @@ class Player:
         del self.playerData['Paid'] 
         del self.playerData['URL']
         del self.playerData['Uplay']
-
-    # Example method to present player data
-    def get_summary(self):
-        summary = f"Name: {self.name}, Ranked: {self.rank}, Tournament K/D: {self.tournament_kd}, Tournament Win/Loss: {self.win_loss_record}, Finals W/L: {self.finals_appearances},  Level: {self.level}"
-        return summary
     
     def get_name(self): return self.name
     
