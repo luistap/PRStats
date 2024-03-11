@@ -12,6 +12,8 @@ known_msu = {"border":['pckrnr']}
 NAME_COL = 0
 TOURNAMENT_KD_COL = 4
 RANKED_STATS_COL = 5
+TOTAL_MAP_RECORD_COL = 1
+FRAUD_WATCH_THR = .24
 
 # threshold constants
 FRAUD_THRESHOLD = .3
@@ -78,6 +80,34 @@ def scaleRank(info : str):
 def adjScore(name : str, row : str):
     sum = 0
     return sum
+
+
+def fraud_watch():
+
+    fraud_watch_list = {}
+    for row in df.itertuples(index=False):
+        name = row[NAME_COL]
+        t_kd = tourney_kd(row[TOURNAMENT_KD_COL])
+        ranked_kd = extract_kd(row[RANKED_STATS_COL])
+        diff = ranked_kd - t_kd
+        if (t_kd != 0.00 and diff >= FRAUD_WATCH_THR and diff < FRAUD_THRESHOLD):
+            diff = round(diff, 2)
+            fraud_watch_list[name] = str(diff * -1)
+    return fraud_watch_list
+
+def get_carried_players():
+
+    carried = {}
+    for row in df.itertuples(index=False):
+        name = row[NAME_COL]
+        t_kd = tourney_kd(row[TOURNAMENT_KD_COL])
+        win_rate = winLoss(row[TOTAL_MAP_RECORD_COL])
+        if (t_kd <= .85 and win_rate >= 67):
+            win_rate_str = str(int(win_rate)) + '%'
+            carried[name] = [t_kd, win_rate_str]
+    return carried
+
+
 
 def det_frauds():
 

@@ -44,6 +44,41 @@ async def player_stats(ctx, playerName: str):
         embed.add_field(name="Finals Record:", value=current_player.get_finalsApp(), inline=False)
         await ctx.send(embed=embed)
 
+# command: !fraudwatch
+@bot.command(name='fraudwatch', help='Determines who is under fraud watch')
+async def fraud_watch(ctx):
+
+    fraud_watch_list = stats.fraud_watch()
+    names_str = ""
+    vals_str = ""
+    embed = discord.Embed(title="SOON TO BE FRAUDS", color=0x00ff00)
+    for name, diff in fraud_watch_list.items():
+        names_str += f"{name}\n"
+        vals_str += f"{diff}\n"
+    
+    embed.add_field(name="Name:", value=names_str, inline=True)
+    embed.add_field(name="KD Differential:", value=vals_str, inline=True)
+    await ctx.send(embed=embed)
+
+
+# command: !carried
+@bot.command(name='carried', help='Determine which players are carried.')
+async def get_carried(ctx):
+
+    carried = stats.get_carried_players()
+    names_str = ""
+    win_rate_str = ""
+    kd_str = ""
+    embed = discord.Embed(title="CARRIED PLAYERS", color=0x00ff00)
+    for name, list in carried.items():
+        names_str += f"{name}\n"
+        win_rate_str += f"{list[1]}\n"
+        kd_str += f"{list[0]}\n"
+    embed.add_field(name="Name:", value=names_str, inline=True)
+    embed.add_field(name="T-KD:", value=kd_str, inline=True)
+    embed.add_field(name="Win Rate:", value=win_rate_str, inline=True)
+    await ctx.send(embed=embed)
+
 
 # command: !frauds
 @bot.command(name='frauds', help='Determines who the current fraudulent players are.')
