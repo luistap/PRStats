@@ -1,6 +1,6 @@
 path: "C:/Users/ltper/OneDrive/Desktop/packsource/data"
 train: images
-val: images
+val: images_val
 
 # classes
 names:

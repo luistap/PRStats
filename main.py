@@ -26,7 +26,7 @@ teams = []
 async def on_ready():
     print('ready')
 
-# command: !playerStats
+# command: !player
 @bot.command(name= 'player', help='Displays stats for a specified player.')
 async def player_stats(ctx, playerName: str):
 
@@ -154,4 +154,4 @@ def find_team(name: str):
             return team
     return None
 
-bot.run(token)
+bot.run(token) 
