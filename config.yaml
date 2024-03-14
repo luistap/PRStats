@@ -2,10 +2,15 @@ path: "C:/Users/ltper/OneDrive/Desktop/packsource/data"
 train: images
 val: images_val
 
+label_train: "C:/Users/ltper/OneDrive/Desktop/packsource/data/labels/train"
+label_val: "C:/Users/ltper/OneDrive/Desktop/packsource/data/labels/val"
+
 # classes
 names:
   0: team1
   1: team1Stats
   2: team2
   3: team2Stats
+
+
 
