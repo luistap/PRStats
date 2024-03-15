@@ -30,5 +30,5 @@ def process_directory(directory_path):
             enhance_image(image_path)
 
 # Specify the path to your screenshots
-screenshots_path = r'C:\Users\ltper\OneDrive\Desktop\SCBRD'
+screenshots_path = r'C:\Users\ltper\OneDrive\Desktop\packsource\data\train\images'
 process_directory(screenshots_path)
