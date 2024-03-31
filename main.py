@@ -9,6 +9,8 @@ import os
 import match
 import player as pl
 from team import Team
+import asyncio
+import quickstart
 
 load_dotenv()
 token = os.getenv('TOKEN')
@@ -136,6 +138,34 @@ async def compare(ctx, *, names : str):
 async def streamer(ctx):
 
     await ctx.send("Want to become a streamer for the org?")
+
+
+# command: !mosscheck
+@bot.command(name='mosscheck', help='Queue a team for moss checking.')
+async def queue_moss(ctx, team_number= int):
+
+    # handle invalid team_number parameter
+    if not isinstance(team_number, int):
+        await ctx.send("Please enter a whole number.")
+    elif team_number > len(teams) or team_number < 1:
+        await ctx.send("Team number out of range.")
+    
+    # authenticate credentials
+    service = quickstart.auth_credentials()
+    await ctx.send(f"MOSS file submission window for Team {team_number} is now open. You have 15 minutes to upload your files.")
+    await asyncio.sleep(600)
+    # extract files
+    extracted_files = quickstart.get_log_files(service, team_number)
+    if len(extracted_files) >= 5:
+        # code for pos case
+        await ctx.send("idl")
+    else:
+        missing = 5 - len(extracted_files)
+        await ctx.send(f"MISSING {missing} MOSS FILES FOR TEAM {team_number}. POTENTIAL PENALTY INCOMING.")
+    
+    
+    # time is up check that all files are present
+
 
 
 

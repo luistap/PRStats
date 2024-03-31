@@ -1,2 +1,4 @@
 # .gitignore content
 .env
+credentials.json
+config.json
