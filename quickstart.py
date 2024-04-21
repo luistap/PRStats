@@ -30,12 +30,13 @@ with open('config.json') as config_file:
   main_folder_id = config['MAIN_FOLDER_ID']
 
 
+# extract the log files for all elements in the team folder
 def get_log_files(service, team_number):
 
   folder_id = get_team_folder(team_number, service)
   
 
-
+# retrieve a team's folder id
 def get_team_folder(team_number, service):
 
       try:
@@ -57,7 +58,8 @@ def get_team_folder(team_number, service):
         print(f"An error occurred: {error}")
         return None
 
-  
+
+# verify credentials
 def auth_credentials():
   """Shows basic usage of the Drive v3 API.
   Prints the names and ids of the first 10 files the user has access to.
