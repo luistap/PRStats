@@ -11,6 +11,8 @@ import player as pl
 from team import Team
 import asyncio
 import quickstart
+import aiohttp
+from storage_service import upload_stream_to_gcs, get_public_url_of_blob
 
 load_dotenv()
 token = os.getenv('TOKEN')
@@ -166,16 +168,34 @@ async def queue_moss(ctx, team_number= int):
     
     # time is up check that all files are present
 
-
-
-
 # command: !maketeam
-@bot.command(name='maketeam', help='Registers a team for the current session.')
-async def make_team(ctx,*, teamInfo: str):
+@bot.command(name='upload', help='Fetch a screenshot from users.')
+async def upload_image(ctx):
+    if not ctx.message.attachments:
+        await ctx.send("Please attach an image.")
+        return
 
-    current_team = Team(teamInfo)
-    teams.append(current_team)
-    await ctx.send("created team")
+    attachment = ctx.message.attachments[0]
+    image_url = attachment.url
+
+    # Upload the image directly from URL to Google Cloud Storage
+    async with aiohttp.ClientSession() as session:
+        async with session.get(image_url) as response:
+            if response.status != 200:
+                await ctx.send("Failed to download image.")
+                return
+            # Read image as stream
+            data = await response.read()
+            file_name_in_gcs = f'images/{attachment.filename}'
+            try:
+                # Upload stream data to Google Cloud Storage
+                public_image_url = await upload_stream_to_gcs(data, file_name_in_gcs)
+                web_tool_url = f"http://yourwebtool.com/edit?image={public_image_url}"
+                await ctx.send(f"Edit your image here: {web_tool_url}")
+            except Exception as e:
+                await ctx.send(f"Failed to upload image: {str(e)}")
+
+
 
 def find_team(name: str):
 

@@ -23,7 +23,7 @@ def detect_text(path):
     return texts[0].description
 
 def main():
-    mypath = "C:/Users/ltper/OneDrive/Desktop/rawboards/Capture9.PNG"
+    mypath = "C:/Users/ltper/OneDrive/Desktop/rawboards/test3.png"
     text = detect_text(mypath)
     print(text)
 

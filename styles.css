@@ -1,0 +1,6 @@
+/* styles.css */
+canvas {
+    border: 1px solid #000; /* Adds a border around the canvas to see it clearly */
+    display: block;  /* Prevents margin issues */
+    margin: 10px auto; /* Centers the canvas horizontally */
+}
