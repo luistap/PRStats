@@ -9,10 +9,10 @@ app = FastAPI()
 # Add CORS middleware for development flexibility
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Allow any origin
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow any method
+    allow_headers=["*"],  # Allow any headers
 )
 
 # Set up Google Vision API client
@@ -34,11 +34,15 @@ def detect_text(image_data):
 async def upload_image(files: list[UploadFile] = File(...)):
     print("Received images for processing.")
     results = {}
-    labels = ["team1_names", "team2_names", "team1_stats", "team2_stats"]
 
-    if len(files) != 4:
-        print("Error: Expected four image files.")
-        raise HTTPException(status_code=400, detail="Exactly four image files are required.")
+    labels = ["team1_names", "team2_names", "team1_stats", "team2_stats"]
+    expected_file_count = 4
+
+    # Check if the number of files received matches the expected count
+    if len(files) != expected_file_count:
+        error_message = f"Expected {expected_file_count} image files, received {len(files)}."
+        print(error_message)
+        raise HTTPException(status_code=400, detail=error_message)
 
     for label, file in zip(labels, files):
         try:
