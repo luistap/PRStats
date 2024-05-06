@@ -9,10 +9,10 @@ app = FastAPI()
 # Add CORS middleware for development flexibility
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Consider specifying domains in production
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Consider specifying allowed methods in production
-    allow_headers=["*"],  # Consider specifying allowed headers in production
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Set up Google Vision API client
@@ -31,23 +31,25 @@ def detect_text(image_data):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/upload/")
-async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadFile = File(...), 
-                       team1_stats: UploadFile = File(...), team2_stats: UploadFile = File(...)):
-    # This function handles four images, processes them, and returns OCR results.
-    print("are we in upload ?")
+async def upload_image(files: list[UploadFile] = File(...)):
+    print("Received images for processing.")
     results = {}
-    files = {
-        "team1_names": team1_names,
-        "team2_names": team2_names,
-        "team1_stats": team1_stats,
-        "team2_stats": team2_stats
-    }
-    for label, file in files.items():
-        image_data = await file.read()
-        ocr_result = detect_text(image_data)
-        results[label] = ocr_result
-        print(f"{label} Extracted:")
-        print(ocr_result)
+    labels = ["team1_names", "team2_names", "team1_stats", "team2_stats"]
+
+    if len(files) != 4:
+        print("Error: Expected four image files.")
+        raise HTTPException(status_code=400, detail="Exactly four image files are required.")
+
+    for label, file in zip(labels, files):
+        try:
+            image_data = await file.read()
+            ocr_result = detect_text(image_data)
+            results[label] = ocr_result
+            print(f"{label} Extracted:")
+            print(ocr_result)
+        except Exception as e:
+            print(f"Failed processing {label}: {e}")
+            continue
 
     return {"message": "OCR results printed to console", "results": results}
 
