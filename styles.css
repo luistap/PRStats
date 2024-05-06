@@ -1,6 +1,41 @@
 /* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f4f4; /* Light grey background for better visibility */
+}
+
+.toolbar {
+    margin-bottom: 10px;
+}
+
+.instructions {
+    margin-bottom: 20px;
+    color: #333;
+}
+
 canvas {
-    border: 1px solid #000; /* Adds a border around the canvas to see it clearly */
-    display: block;  /* Prevents margin issues */
-    margin: 10px auto; /* Centers the canvas horizontally */
+    border: 2px solid #666; /* More visible border color */
+    display: block;
+    margin: 20px auto; /* Increase margin for better focus */
+    background-color: #fff; /* White background to contrast with image and rectangles */
+}
+
+input[type="file"], button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #007BFF; /* A cheerful blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover for feedback */
 }

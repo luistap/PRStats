@@ -10,9 +10,9 @@ import match
 import player as pl
 from team import Team
 import asyncio
-import quickstart
+# import quickstart
 import aiohttp
-from storage_service import upload_stream_to_gcs, get_public_url_of_blob
+import storage_service
 
 load_dotenv()
 token = os.getenv('TOKEN')
@@ -189,7 +189,7 @@ async def upload_image(ctx):
             file_name_in_gcs = f'images/{attachment.filename}'
             try:
                 # Upload stream data to Google Cloud Storage
-                public_image_url = await upload_stream_to_gcs(data, file_name_in_gcs)
+                public_image_url = await storage_service.upload_stream_to_gcs(data, file_name_in_gcs)
                 web_tool_url = f"http://yourwebtool.com/edit?image={public_image_url}"
                 await ctx.send(f"Edit your image here: {web_tool_url}")
             except Exception as e:

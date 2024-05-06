@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <input type="file" id="upload" accept="image/*">
+    <div class="toolbar">
+        <input type="file" id="upload" accept="image/*">
+        <button id="submit">Submit</button>
+    </div>
+    <div class="instructions">
+        <p>Upload your image, then draw rectangles over the parts you need to crop and submit.</p>
+    </div>
     <canvas id="canvas"></canvas>
     <script src="script.js"></script>
 </body>
