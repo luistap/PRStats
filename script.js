@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
         if (imageLoaded) {
-            ctx.fillStyle = "rgba(255, 255, 255, 0.5)"; // Use semi-transparent white to fill rectangles
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
             rectangles.forEach(rect => {
                 ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
             });
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 canvas.width = image.width;
                 canvas.height = image.height;
                 imageLoaded = true;
-                rectangles = []; // Reset rectangles when a new image is loaded
+                rectangles = [];
                 draw();
             };
             image.src = event.target.result;
@@ -70,21 +70,22 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById('submit').addEventListener('click', async function() {
         if (confirm('Are you sure you want to submit this image?')) {
             const formData = new FormData();
-            const blobPromises = rectangles.map((rect, index) => new Promise(resolve => {
-                const rectCanvas = document.createElement('canvas');
-                rectCanvas.width = rect.w;
-                rectCanvas.height = rect.h;
-                const rectCtx = rectCanvas.getContext('2d');
-                rectCtx.drawImage(canvas, rect.startX, rect.startY, rect.w, rect.h, 0, 0, rect.w, rect.h);
-                rectCanvas.toBlob(blob => {
-                    formData.append(`image${index}`, blob, `section${index}.png`);
-                    resolve();
-                }, 'image/png');
-            }));
-
-            Promise.all(blobPromises).then(() => {
-                submitImage(formData);
+            const promises = rectangles.map((rect, index) => {
+                return new Promise(resolve => {
+                    const blobCanvas = document.createElement('canvas');
+                    blobCanvas.width = rect.w;
+                    blobCanvas.height = rect.h;
+                    const blobCtx = blobCanvas.getContext('2d');
+                    blobCtx.drawImage(canvas, rect.startX, rect.startY, rect.w, rect.h, 0, 0, rect.w, rect.h);
+                    blobCanvas.toBlob(blob => {
+                        formData.append(`image${index}`, blob, `section${index}.png`);
+                        resolve();
+                    }, 'image/png');
+                });
             });
+
+            await Promise.all(promises);
+            submitImage(formData);
         }
     });
 
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 console.log('Images successfully submitted!');
                 const result = await response.json();
+                console.log(result);
                 alert('Images processed: ' + result.message);
             } else {
                 console.error('Failed to submit images', response.statusText);
