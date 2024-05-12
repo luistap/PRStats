@@ -5,6 +5,7 @@ from google.cloud import vision
 from PIL import Image
 import io
 import os
+#
 
 app = FastAPI()
 
@@ -51,6 +52,7 @@ async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadF
                 continue  # Skip further processing for this file
 
             image_path = save_image(image_data, label)
+            # pre-processing done here
             ocr_result = detect_text(image_path)
             results[label] = ocr_result
             print(f"{label} Extracted:")

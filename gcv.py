@@ -22,8 +22,12 @@ def detect_text(path):
         )
     return texts[0].description
 
+def convert_path(path):
+    return path.replace("\\", "/")
+
 def main():
-    mypath = "C:/Users/ltper/OneDrive/Desktop/rawboards/test44.png"
+    mypath = r"C:\Users\ltper\PCKSTATS\chars_cropped\row_3_char_2.png"
+    mypath = convert_path(mypath)
     text = detect_text(mypath)
     print(text)
 

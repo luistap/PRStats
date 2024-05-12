@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';  // Set high-quality image smoothing
+
     let rectangles = [];
     let currentRect = null;
     let drag = false;
@@ -10,16 +13,33 @@ document.addEventListener("DOMContentLoaded", function() {
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
         if (imageLoaded) {
-            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-            rectangles.forEach((rect, index) => {
-                ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
-                console.log(`Drawing rectangle ${index + 1}: (${rect.startX}, ${rect.startY}, ${rect.w}, ${rect.h})`);
+            ctx.strokeStyle = "red";  // Visible color for the rectangle borders
+            ctx.lineWidth = 2;
+
+            rectangles.forEach(rect => {
+                ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
             });
+
+            if (currentRect) {
+                ctx.strokeRect(currentRect.startX, currentRect.startY, currentRect.w, currentRect.h);
+            }
+
+            ctx.globalAlpha = 0.2;  // Lower opacity for filled rectangles
+            ctx.fillStyle = "gray";
+            ctx.globalCompositeOperation = 'multiply';
+
+            rectangles.forEach(rect => {
+                ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
+            });
+
             if (currentRect) {
                 ctx.fillRect(currentRect.startX, currentRect.startY, currentRect.w, currentRect.h);
-                console.log(`Drawing current rectangle: (${currentRect.startX}, ${currentRect.startY}, ${currentRect.w}, ${currentRect.h})`);
             }
+
+            ctx.globalAlpha = 1.0;
+            ctx.globalCompositeOperation = 'source-over';  // Reset blend mode
         }
     }
 
@@ -30,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 canvas.width = image.width;
                 canvas.height = image.height;
                 imageLoaded = true;
-                rectangles = []; // Clear previous rectangles
+                rectangles = [];
                 console.log("Image loaded and rectangles array cleared.");
                 draw();
             };
@@ -47,14 +67,12 @@ document.addEventListener("DOMContentLoaded", function() {
             h: 0
         };
         drag = true;
-        console.log(`Mouse down at (${currentRect.startX}, ${currentRect.startY})`);
     });
 
     canvas.addEventListener('mouseup', function() {
-        if (currentRect && currentRect.w !== 0 && currentRect.h !== 0) { // Ensure non-zero rectangle
+        if (currentRect && currentRect.w !== 0 && currentRect.h !== 0) {
             rectangles.push(currentRect);
             console.log(`Rectangle added: (${currentRect.startX}, ${currentRect.startY}, ${currentRect.w}, ${currentRect.h})`);
-            console.log(`Total rectangles: ${rectangles.length}`);
         }
         currentRect = null;
         drag = false;
@@ -76,39 +94,37 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        if (confirm('Are you sure you want to submit this image?')) {
-            const formData = new FormData();
-            const labels = ['team1_names', 'team2_names', 'team1_stats', 'team2_stats'];
-            let blobPromises = labels.map((label, index) => {
-                return new Promise(resolve => {
-                    if (index < rectangles.length) {
-                        const rect = rectangles[index];
-                        const blobCanvas = document.createElement('canvas');
-                        blobCanvas.width = rect.w;
-                        blobCanvas.height = rect.h;
-                        const blobCtx = blobCanvas.getContext('2d');
-                        blobCtx.drawImage(canvas, rect.startX, rect.startY, rect.w, rect.h, 0, 0, rect.w, rect.h);
-                        blobCanvas.toBlob(blob => {
-                            if (blob) {
-                                console.log(`Blob created for ${label}, size: ${blob.size} bytes`);
-                                formData.append(label, blob, `section${index}.png`);
-                            } else {
-                                console.log(`Failed to create blob for ${label}`);
-                                formData.append(label, new Blob(), `empty_${index}.png`); // Append an empty blob
-                            }
-                            resolve();
-                        }, 'image/png');
-                    } else {
-                        formData.append(label, new Blob(), `empty_${index}.png`); // Ensure all indices are accounted for
+        const formData = new FormData();
+        const labels = ['team1_names', 'team2_names', 'team1_stats', 'team2_stats'];
+        let blobPromises = labels.map((label, index) => {
+            return new Promise(resolve => {
+                if (index < rectangles.length) {
+                    const rect = rectangles[index];
+                    const blobCanvas = document.createElement('canvas');
+                    blobCanvas.width = rect.w;
+                    blobCanvas.height = rect.h;
+                    const blobCtx = blobCanvas.getContext('2d');
+                    blobCtx.drawImage(canvas, rect.startX, rect.startY, rect.w, rect.h, 0, 0, rect.w, rect.h);
+                    blobCanvas.toBlob(blob => {
+                        if (blob) {
+                            console.log(`Blob created for ${label}, size: ${blob.size} bytes`);
+                            formData.append(label, blob, `section${index}.png`);
+                        } else {
+                            console.log(`Failed to create blob for ${label}`);
+                            formData.append(label, new Blob(), `empty_${index}.png`);
+                        }
                         resolve();
-                    }
-                });
+                    }, 'image/png');
+                } else {
+                    formData.append(label, new Blob(), `empty_${index}.png`);
+                    resolve();
+                }
             });
+        });
 
-            await Promise.all(blobPromises);
-            console.log('All blobs added to formData');
-            submitImage(formData);
-        }
+        await Promise.all(blobPromises);
+        console.log('All blobs added to formData');
+        submitImage(formData);
     });
 
     async function submitImage(formData) {
@@ -132,5 +148,4 @@ document.addEventListener("DOMContentLoaded", function() {
             alert('Network or server error.');
         }
     }
-
 });
