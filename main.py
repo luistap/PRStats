@@ -6,9 +6,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import stats
 import os
-import match
 import player as pl
-from team import Team
 import asyncio
 # import quickstart
 import aiohttp
@@ -63,6 +61,13 @@ async def fraud_watch(ctx):
     embed.add_field(name="Name:", value=names_str, inline=True)
     embed.add_field(name="KD Differential:", value=vals_str, inline=True)
     await ctx.send(embed=embed)
+
+
+# command: !editname
+@bot.command(name='editname', help='Edit player name in database')
+async def edit_name(ctx, playerName: str):
+    
+
 
 
 # command: !carried

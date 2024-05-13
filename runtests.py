@@ -21,8 +21,12 @@ def correct_mismatches(text):
         'LL': '11',  # To handle double Ls seen as 11
         'o': '0',
         'о': '0',
+        '°': '0',
+        'י': '1',
+        'сл': '5',
         'No text found': '0',
-        'N0 text f0und': '0'
+        'N0 text f0und': '0',
+        'N' : '2'
     }
     # Replace all known incorrect characters with correct ones
     for wrong, right in corrections.items():
@@ -87,5 +91,5 @@ def process_all_images_in_folder(folder_path):
         print("\n")
 
 # Example usage
-folder_path = "C:/Users/ltper/OneDrive/Desktop/cnn/web_to_backend.v2" # Path to the folder containing the images
+folder_path = "C:/Users/ltper/OneDrive/Desktop/cnn/web_to_backend.v3" # Path to the folder containing the images
 process_all_images_in_folder(folder_path)
