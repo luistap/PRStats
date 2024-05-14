@@ -27,7 +27,7 @@ def train():
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     # Training loop
-    for epoch in range(10):  # You might want to adjust the number of epochs
+    for epoch in range(130):  # You might want to adjust the number of epochs
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
