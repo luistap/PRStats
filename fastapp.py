@@ -1,11 +1,10 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from google.cloud import vision
 from PIL import Image
 import io
 import os
-#
+import utilities
 
 app = FastAPI()
 
@@ -18,31 +17,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Set up Google Vision API client
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'packrunners.json'
-client = vision.ImageAnnotatorClient()
-
-def detect_text(image_path):
-    """Use Google Vision API for OCR."""
-    with open(image_path, "rb") as image_file:
-        content = image_file.read()
-    image = vision.Image(content=content)
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    return texts[0].description if texts else "No text found"
-
 @app.post("/upload/")
 async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadFile = File(...), 
                        team1_stats: UploadFile = File(...), team2_stats: UploadFile = File(...)):
     print("Endpoint Hit: Received images for processing.")
     try:
-        results = {}
         files = {
             "team1_names": team1_names,
             "team2_names": team2_names,
             "team1_stats": team1_stats,
             "team2_stats": team2_stats
         }
+        paths = {}
         for label, file in files.items():
             image_data = await file.read()
             if image_data:  # Check if data is actually received
@@ -50,18 +36,17 @@ async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadF
             else:
                 print(f"No data received for {label}")
                 continue  # Skip further processing for this file
-
-            image_path = save_image(image_data, label)
-            # pre-processing done here
-            ocr_result = detect_text(image_path)
-            results[label] = ocr_result
-            print(f"{label} Extracted:")
-            print(ocr_result)
-        return {"message": "OCR results printed to console", "results": results}
+            paths[label] = save_image(image_data, label)
     except Exception as e:
         print(f"An error occurred: {e}")
         raise HTTPException(status_code=500, detail=str(e))
-
+    
+    final_stats = {}
+    # files are saved now process each team
+    utilities.process_team(paths['team1_names'], paths['team1_stats'], final_stats)
+    utilities.process_team(paths['team2_names'], paths['team2_stats'], final_stats)
+    print(final_stats)
+    return
 
 def save_image(image_data, label):
     """Save the image to a temporary directory and return the path."""

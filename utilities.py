@@ -1,40 +1,71 @@
-# MAIN UTILITIES MODULE
-# UTILITIES: NOISE REDUCTION, CONTRAST ENHANCEMENT, AND IMAGE INVERSION
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+import requests
+import os
+from google.cloud import vision
 
-import cv2
+# Configure your Cloudinary credentials
+cloudinary.config(
+    cloud_name="degzpxhjw",  # Your cloud name
+    api_key="396329727495689",  # Your API key
+    api_secret="iMxbks6PueFT0oa8nUd1NOR7ARo"  # Your API secret
+)
 
-def apply_bilateral_filter(image_path, d, sigma_color, sigma_space, save_path):
-    """
-    Apply bilateral filtering to an image and save it.
+# Set up Google Vision API client
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'packrunners.json'
+client = vision.ImageAnnotatorClient()
 
-    Args:
-    image_path (str): Path to the input image.
-    d (int): Diameter of each pixel neighborhood.
-    sigma_color (float): Filter sigma in the color space.
-    sigma_space (float): Filter sigma in the coordinate space.
-    save_path (str): Path to save the filtered image.
-    """
-    # Read the image
-    image = cv2.imread(image_path)
-    if image is None:
-        raise ValueError("Image not found, check the path.")
+def detect_text_path(image_path):
+    """Use Google Vision API for OCR."""
+    with open(image_path, "rb") as image_file:
+        content = image_file.read()
+    image = vision.Image(content=content)
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    return texts[0].description if texts else "No text found"
 
-    # Apply bilateral filter
-    output_image = cv2.bilateralFilter(image, d=d, sigmaColor=sigma_color, sigmaSpace=sigma_space)
 
-    # Save the filtered image
-    cv2.imwrite(save_path, output_image)
-    print(f"Filtered image saved to {save_path}")
+def detect_text_byte(byte_content):
+    """Use Google Vision API for OCR."""
+    image = vision.Image(content=byte_content)
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    return texts[0].description if texts else "No text found"
 
-# Usage
-image_path = "C:/Users/ltper/PCKSTATS/chars_cropped/row_5_char_2.png"  
-# Update this to the path of your image
-save_path = 'path_to_save_filtered_image.png'  # Update this to where you want to save the filtered image
 
-# Parameters for bilateral filter
-diameter = 9  # Diameter of each pixel neighborhood
-sigma_color = 75  # Filter sigma in the color space
-sigma_space = 75  # Filter sigma in the coordinate space
+def process_team_stats(file_path):
+    """Uploads an image to Cloudinary, applies color inversion and contrast enhancement, and saves it locally."""
+    # Upload the image and apply the 'negate' effect to invert colors followed by increasing contrast
+    response = cloudinary.uploader.upload(
+        file_path,
+        transformation=[
+            {'effect': "negate"},  # First, invert the colors
+            {'effect': "improve:outdoor"}  # Then enhance contrast
+        ]
+    )
+    processed_image_url = response['url']
+    print("Processed image URL:", processed_image_url)
 
-# Apply the filter and save the output
-apply_bilateral_filter(image_path, diameter, sigma_color, sigma_space, save_path)
+    # Download the processed image and save it locally
+    image_data = requests.get(processed_image_url).content
+    local_filename = "processed_image.png"  # Local filename to save the image
+    with open(local_filename, 'wb') as file:
+        file.write(image_data)
+    print(f"Processed image saved locally as {local_filename}")
+    return local_filename
+
+
+def convert_path(path):
+    return path.replace("\\", "/")
+
+def process_team(names_path : str, stats_path : str, stats : dict):
+
+    import scan
+    names_text = detect_text_path(names_path)
+    stats_path_processed = process_team_stats(stats_path)
+    stats_text = scan.process_stats(stats_path_processed)
+
+    # do we have a valid stats text ?
+    stats[names_text] = stats_text
+    return
