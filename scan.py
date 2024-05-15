@@ -23,6 +23,7 @@ def correct_mismatches(text):
         '°': '0',
         'י': '1',
         'сл': '5',
+        'O1': '10',
         'No text found': '0',
         'N0 text f0und': '0',
         'N': '2'

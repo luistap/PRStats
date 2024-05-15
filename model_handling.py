@@ -57,7 +57,7 @@ def predict(model, device, image):
 def main():
     # Hardcoded paths
     model_path = 'C:/Users/ltper/OneDrive/Desktop/cnn/models'
-    image_path = r"C:\Users\ltper\PCKSTATS\chars_cropped\row_2_char_2.png".replace('\\', '/')
+    image_path = r"C:\Users\ltper\PCKSTATS\chars_cropped\row_3_char_2.png".replace('\\', '/')
     
     # Load the model
     model, device = load_model(model_path)

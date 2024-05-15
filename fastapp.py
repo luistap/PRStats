@@ -45,7 +45,14 @@ async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadF
     # files are saved now process each team
     utilities.process_team(paths['team1_names'], paths['team1_stats'], final_stats)
     utilities.process_team(paths['team2_names'], paths['team2_stats'], final_stats)
-    print(final_stats)
+    print_stats(final_stats=final_stats)
+    return
+
+def print_stats(final_stats : dict):
+    
+    for key in final_stats.keys():
+        print("Names: " + key)
+        print(final_stats[key])
     return
 
 def save_image(image_data, label):
