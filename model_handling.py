@@ -1,11 +1,9 @@
-import cv2
-import io
 import os
 import torch
 import torchvision.transforms as transforms
-from PIL import Image  # Importing PIL
-from model import SimpleCNN
-import utilities
+from PIL import Image, ImageEnhance, ImageStat
+from model import SimpleCNN  # Ensure this import matches the file name and class name
+import torch.nn as nn
 
 def load_model(model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -14,15 +12,36 @@ def load_model(model_path):
     model.eval()
     return model, device
 
-def preprocess_image(image_path):
+def get_brightness(image):
+    # Get brightness of the image
+    stat = ImageStat.Stat(image.convert('L'))
+    return stat.mean[0]
+
+def adjust_brightness(image, target_brightness=128):
+    current_brightness = get_brightness(image)
+    # Adjust this threshold as needed for greater flexibility
+    if current_brightness > 195:
+        enhancer = ImageEnhance.Brightness(image)
+        factor = target_brightness / current_brightness
+        image = enhancer.enhance(factor)
+        print(f"Brightness adjusted from {current_brightness:.2f} to {target_brightness:.2f}")
+    else:
+        print(f"Brightness adjustment not needed. Current brightness: {current_brightness:.2f}")
+    return image
+
+def preprocess_image(image_path, target_brightness=100):
     transform = transforms.Compose([
-        transforms.Grayscale(),  # Convert to grayscale
+        transforms.Grayscale(),  # Convert image to grayscale
         transforms.Resize((28, 28)),  # Resize to 28x28 pixels
         transforms.ToTensor(),  # Convert to tensor
         transforms.Normalize((0.5,), (0.5,))  # Normalize the tensor
     ])
 
     image = Image.open(image_path)
+
+    # Adjust brightness if necessary
+    image = adjust_brightness(image, target_brightness)
+
     image = transform(image)
     image = image.unsqueeze(0)  # Add batch dimension
     return image
@@ -38,7 +57,7 @@ def predict(model, device, image):
 def main():
     # Hardcoded paths
     model_path = 'C:/Users/ltper/OneDrive/Desktop/cnn/models'
-    image_path = r"C:\Users\ltper\OneDrive\Desktop\cnn\val\9\idk.png".replace('\\', '/')
+    image_path = r"C:\Users\ltper\PCKSTATS\chars_cropped\row_2_char_2.png".replace('\\', '/')
     
     # Load the model
     model, device = load_model(model_path)
