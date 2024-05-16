@@ -41,11 +41,13 @@ async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadF
         print(f"An error occurred: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     
-    final_stats = {}
+    team1_info = {}
+    team2_info = {}
     # files are saved now process each team
-    utilities.process_team(paths['team1_names'], paths['team1_stats'], final_stats)
-    utilities.process_team(paths['team2_names'], paths['team2_stats'], final_stats)
-    print_stats(final_stats=final_stats)
+    utilities.process_team(paths['team1_names'], paths['team1_stats'], team1_info)
+    utilities.process_team(paths['team2_names'], paths['team2_stats'], team2_info)
+    print(team1_info)
+    print(team2_info)
     return
 
 def print_stats(final_stats : dict):

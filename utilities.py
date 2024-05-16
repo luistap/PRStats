@@ -59,13 +59,13 @@ def process_team_stats(file_path):
 def convert_path(path):
     return path.replace("\\", "/")
 
-def process_team(names_path : str, stats_path : str, stats : dict):
+def process_team(names_path : str, stats_path : str, team_dict : dict):
 
     import scan
     names_text = detect_text_path(names_path)
     stats_path_processed = process_team_stats(stats_path)
     stats_text = scan.process_stats(stats_path_processed)
-
-    # do we have a valid stats text ?
-    stats[names_text] = stats_text
+    names_text = names_text.splitlines('\n')
+    for index in range(len(names_text)):
+        team_dict[names_text[index]] = stats_text[index]
     return
