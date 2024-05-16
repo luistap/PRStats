@@ -67,5 +67,6 @@ def process_team(names_path : str, stats_path : str, team_dict : dict):
     stats_text = scan.process_stats(stats_path_processed)
     names_text = names_text.splitlines('\n')
     for index in range(len(names_text)):
-        team_dict[names_text[index]] = stats_text[index]
+        stats_as_ints = [int(stat) for stat in stats_text[index]]
+        team_dict[names_text[index]] = stats_as_ints
     return
