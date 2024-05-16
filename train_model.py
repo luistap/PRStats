@@ -7,6 +7,8 @@ import torch.optim as optim
 from model import SimpleCNN  # Ensure this import matches the file name and class name
 import torch.nn as nn  # Added to ensure nn is recognized for CrossEntropyLoss
 
+NUM_EPOCHS = 140
+
 def train():
     # Define transformations
     transform = transforms.Compose([
@@ -27,7 +29,7 @@ def train():
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     # Training loop
-    for epoch in range(140):  # You might want to adjust the number of epochs
+    for epoch in range(NUM_EPOCHS):  # You might want to adjust the number of epochs
         for images, labels in train_loader:
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()

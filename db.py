@@ -24,8 +24,18 @@ def execute_query(connection, query):
         print("Query executed successfully")
     except OperationalError as e:
         print(f"The error '{e}' occurred")
+    finally:
+        cursor.close()
 
-# Testing the connection
+def execute_sql_file(connection, filepath):
+    try:
+        with open(filepath, 'r') as file:
+            sql_file = file.read()
+            execute_query(connection, sql_file)
+    except IOError as e:
+        print(f"Error opening file {filepath}: {e}")
+
+# Testing the connection and creating tables
 connection = create_connection()
 if connection is not None:
-    execute_query(connection, "SELECT NOW();")  # This will return the current date and time from the server
+    execute_sql_file(connection, "schema.sql")

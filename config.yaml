@@ -1,9 +1,0 @@
-path: "C:/Users/ltper/OneDrive/Desktop/packsource/data/topright"
-train: train/images
-val: val/images
-
-# classes
-names:
-  0: top_right
-
-

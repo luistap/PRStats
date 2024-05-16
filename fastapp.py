@@ -50,13 +50,6 @@ async def upload_image(team1_names: UploadFile = File(...), team2_names: UploadF
     print(team2_info)
     return
 
-def print_stats(final_stats : dict):
-    
-    for key in final_stats.keys():
-        print("Names: " + key)
-        print(final_stats[key])
-    return
-
 def save_image(image_data, label):
     """Save the image to a temporary directory and return the path."""
     os.makedirs('temp_images', exist_ok=True)
