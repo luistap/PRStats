@@ -1,0 +1,19 @@
+/* styles/globals.css */
+body, html {
+    height: 100%; /* Full height */
+    margin: 0; /* Remove default margin */
+}
+
+.main-container {
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center; /* Align vertically center */
+    justify-content: center; /* Align horizontally center */
+    background-color: #36454F; /* Charcoal black background */
+}
+
+canvas {
+    max-width: 95%; /* Max width to avoid overflow */
+    max-height: 80vh; /* Max height to fit in viewport */
+    border: 4px solid #DC143C; /* Crimson border */
+}
