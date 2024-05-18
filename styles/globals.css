@@ -2,18 +2,50 @@
 body, html {
     height: 100%; /* Full height */
     margin: 0; /* Remove default margin */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    font-family: 'Arial', sans-serif; /* Set default font */
 }
 
+/* Main container that holds the header, sidebar, and main content area */
 .main-container {
-    height: 100vh; /* Full viewport height */
+    min-height: 100vh; /* Full viewport height */
     display: flex;
-    align-items: center; /* Align vertically center */
-    justify-content: center; /* Align horizontally center */
+    flex-direction: column; /* Stack header and content area vertically */
+}
+
+header {
+    width: 100%; /* Full width */
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center;
+    padding: 0.5rem 1rem; /* Padding around the header */
     background-color: #36454F; /* Charcoal black background */
+    color: white; /* White text */
+}
+
+/* Styling for the side panel (sidebar) and main content area */
+.content-area {
+    display: flex;
+    flex: 1; /* Take up remaining space */
+}
+
+aside {
+    width: 20%; /* Sidebar takes up 20% of the content area */
+    background-color: #2C2F33; /* Dark grey background */
+    padding: 1rem; /* Padding inside the sidebar */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+}
+
+main {
+    flex: 1; /* Main area takes up remaining space */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
 }
 
 canvas {
-    max-width: 95%; /* Max width to avoid overflow */
-    max-height: 80vh; /* Max height to fit in viewport */
+    max-width: 100%; /* Max width to fit in its container */
+    max-height: 75vh; /* Max height to fit in viewport without overflow */
     border: 4px solid #DC143C; /* Crimson border */
 }
