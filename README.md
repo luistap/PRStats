@@ -16,10 +16,10 @@ This guide teaches you the essentials behind the PRStats system. You'll see the 
 The first thing we need to do is obtain an in-game screenshot of the scoreboard. This must be a screenshot that you fetch by invoking some sort of keyboard shortcut and/or using a snipping tool. Taking pictures of the scoreboard with one's phone will jeopardize accuracy since the quality of the scoreboard will likely not be as good.
 
 **Good Screenshot:**
-![Good Screenshot](url_to_good_screenshot)
+![Good Screenshot](images/good_scs.png)
 
 **Bad Screenshot:**
-![Bad Screenshot](url_to_bad_screenshot)
+![Bad Screenshot](images/bad_scs.jpg)
 
 The scoreboard must display all names and figures such as kills, deaths, and assists (the system does not handle fragmented screenshots; it must all be in one).
 
