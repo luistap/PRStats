@@ -101,6 +101,6 @@ You will receive a message from PRStats as shown:
 
 ![](images/scs_12.png)
 
-If there are any corrections to be made, follow the workflow invoked by the bot. Otherwise, submit the corrections and the final data will be written to the database successfully (There's no going back from here)!
+If there are any corrections to be made, follow the workflow invoked by the bot. Otherwise, submit the corrections and the final data will be written to the database successfully (there's no going back from here)!
 
 Assuming a successful upload and little to no corrections needed, the data shall now be stored and found within Packrunners database. Any pulling of player information will be done from this database.
