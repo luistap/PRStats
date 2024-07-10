@@ -25,19 +25,23 @@ The scoreboard must display all names and figures such as kills, deaths, and ass
 
 ## Step 2: Upload the File, Capture Relevant Parts
 
-Now, go to our [webtool](link_to_the_webtool) and upload the file. You should now be able to see the scoreboard in the canvas as seen below:
+Now, go to our [webtool](https://scoreboardtool.netlify.app/) and upload the file. You should now be able to see the scoreboard in the canvas as seen below:
 
-![Uploaded File](url_to_uploaded_file_pic)
+![Uploaded File](images/scs_1.png)
 
 This web tool allows us to snip out the relevant parts of each scoreboard. This includes four separate parts: Team 1's names, Team 1's actual stats, Team 2's names, Team 2's actual stats. This means that we must snip out 4 separate rectangles within the scoreboard as such:
 
-![Scoreboard Snipping](url_to_scoreboard_snipping_pic)
+![Scoreboard Snipping](images/scs_2.png)
 
 **Good Symmetry:**
-![Good Symmetry](url_to_good_symmetry_pic)
+
+
+![](images/scs_3.png)
 
 **Bad Symmetry:**
-![Bad Symmetry](url_to_bad_symmetry_pic)
+
+
+![Bad Symmetry](images/scs_4.png)
 
 ## Step 3: Input All Other Match-Related Info
 
@@ -47,7 +51,7 @@ The next step is to fill in all of the necessary match-related information. We h
 - **Final Score**: Enter the final score for this match. The format is Team 1 - Team 2; the team at the bottom of the scoreboard is team 2, team 1 is always the team at the top.
 - **Map**: Enter the map for which the current scoreboard/match pertained to.
 
-![Example Match Info](url_to_example_match_info)
+![Example Match Info](images/scs_5.png)
 
 The figure above shows a seeding game played on Chalet, finishing with a score of 7-4 (Team 1 won 7 rounds, Team 2 won 4 rounds).
 
@@ -55,7 +59,21 @@ The figure above shows a seeding game played on Chalet, finishing with a score o
 
 Now we must initiate the processing pipeline for our data. Invoke the `!upload` command in a designated text channel within Discord and receive a code from the PRStats bot. This code must be entered into the final field in order to successfully trigger the upload.
 
-![Invoking the Bot](url_to_invoking_bot_pic)
+**Invoking the bot:**
+
+
+![](images/scs_6.png)
+
+**Receiving the code:**
+
+
+![](images/scs_7.png)
+
+**Entering the code:**
+
+
+![](images/scs_8.png)
+
 
 ## Step 5: Await Feedback from PRStats
 
@@ -63,7 +81,25 @@ Once the data goes through most of the pipeline, we will reach the correction st
 
 You will receive a message from PRStats as shown:
 
-![PRStats Feedback](url_to_prstats_feedback_pic)
+**Review the stats and pick a player to correct:**
+
+
+![](images/scs_9.png)
+
+**Selecting the statistic to correct:**
+
+
+![](images/scs_10.png)
+
+**Entering the correct value:**
+
+
+![](images/scs_11.png)
+
+**Confirm the statistics:**
+
+
+![](images/scs_12.png)
 
 If there are any corrections to be made, follow the workflow invoked by the bot. Otherwise, submit the corrections and the final data will be written to the database successfully (There's no going back from here)!
 
